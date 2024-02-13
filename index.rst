@@ -10,7 +10,7 @@ Welcome to airspeedsens's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-   Датчик повітряної швидкості.rst
+   speed-sensor
 
 Indices and tables
 ==================

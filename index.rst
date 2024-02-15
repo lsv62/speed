@@ -9,6 +9,7 @@ Welcome to airspeedsens's documentation!
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
+   :numbered:
 
    speed-sensor
 

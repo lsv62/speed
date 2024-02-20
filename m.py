@@ -1,5 +1,8 @@
 import math
 k=1.4
+R=287.05287
 ph=101325
-pht=128186.76
+pht=152258.6
 print("Число M=", math.sqrt(2/(k-1)*((pht/ph)**((k-1)/k)-1)))
+Th=288.15
+print("Швидкість звуку a=", math.sqrt(k*R*Th))

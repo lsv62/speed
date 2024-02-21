@@ -181,7 +181,7 @@ http://mgsys.kpi.ua/article/view/147340
 .. math::
     :label: (6)
 
-    a=\sqrt{kRT^*_H}
+    a=\sqrt{kRT_H}
 
 Для умов на рівні моря швидкість звуку згідно з :eq:`(6)` дорівнює:
 
@@ -197,10 +197,11 @@ http://mgsys.kpi.ua/article/view/147340
 https://agodemar.github.io/FlightMechanics4Pilots/mypages/airspeeds/
 
 .. math::
+    :label: (7)
 
     V_{EAS}=\begin{cases}
                 \begin{split}
-                    \sqrt{\frac{P^*_H-P_H}{2\rho_0}}=\sqrt{\frac{ \Delta P }{2\rho_0}}&, M&\leq0.3\\
+                    \sqrt{\frac{P^*_H-P_H}{2\rho_0}}=\sqrt{\frac{ \Delta P }{2 \rho_0}}&, M&\leq0.3\\
                     a*M&, M&> 0.3
                 \end{split}
             \end{cases}
@@ -211,12 +212,23 @@ https://agodemar.github.io/FlightMechanics4Pilots/mypages/airspeeds/
 * :math:`M` згідно :eq:`(5)`
 * :math:`a` згідно :eq:`(6)`
 
+Для числа М польоту 0.2 з урахуванням змінної
+теплоємності повітря швидкість польоту на рівні моря складає 68.041 м/с, 
+повний тиск складає :math:`P^*_H=104040.1, Па`. Згідно з :eq:`(7)`:
+
+.. math::
+
+    V_{EAS} &= \sqrt{\frac{104040.1-101325}{2*1.225}}
+
+    &=33.29, \frac{м}{с}
+
 Істинна швидкість на висоті
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Враховує зміну густини повітря на висоті
 
 .. math::
+    :label: (8)
 
     V_{TAS}=\sqrt{\frac{P^*_H-P_H}{2\rho_0\sigma}}=\sqrt{\frac{ \Delta P }{2\rho_0\sigma}}
 
@@ -248,6 +260,15 @@ https://www.sciencedirect.com/topics/engineering/venturi-tube
 :math:`\beta=\frac{d}{D}=0,3... 0,75`
 
 .. image:: _static/speed-re.png
+
+Конструктивні вимоги
+--------------------------
+
+Габарити пристрою:
+
+* висота 25 мм
+* довжина 70 мм
+* ширина 70 мм
 
 Вимоги до зовнішніх впливів та методів випробувань
 -----------------------------------------------------

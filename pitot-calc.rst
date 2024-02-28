@@ -158,7 +158,7 @@ https://agodemar.github.io/FlightMechanics4Pilots/mypages/airspeeds/
 
     V_{EAS}=\begin{cases}
                 \begin{split}
-                    \sqrt{\frac{P^*_H-P_H}{2\rho_0}}=\sqrt{\frac{ 2 \Delta P }{\rho_0}}&, M&\leq0.3\\
+                    \sqrt{\frac{2(P^*_H-P_H)}{\rho_0}}=\sqrt{\frac{ 2 \Delta P }{\rho_0}}&, M&\leq0.3\\
                     a*M&, M&> 0.3
                 \end{split}
             \end{cases}
@@ -175,7 +175,7 @@ https://agodemar.github.io/FlightMechanics4Pilots/mypages/airspeeds/
 
 .. math::
 
-    V_{EAS} &= \sqrt{\frac{2*104040.1-101325}{1.225}}
+    V_{EAS} &= \sqrt{\frac{2(104040.1-101325)}{1.225}}
 
     &=66.57, \frac{м}{с}
 

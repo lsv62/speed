@@ -42,10 +42,11 @@ try:
     if __name__ == "__main__":
         # Check if the expected number of command-line arguments is provided
         if len(sys.argv) != 2:
-            print("Usage: python script.py <float_value>")
-            sys.exit(1) 
-
-        ground_pressure = float(sys.argv[1])
+            ground_pressure=1.01325
+            print("Usage: default ground pressure>")
+        elif len(sys.argv) == 2: 
+            ground_pressure = float(sys.argv[1])
+        
         print("ground pressure:", ground_pressure)
 
     if len(float1) == 4:

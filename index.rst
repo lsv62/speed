@@ -3,8 +3,9 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to airspeedsens's documentation!
-========================================
+=============================
+ТЕХНІЧНЕ ЗАВДАННЯ
+=============================
 
 .. toctree::
    :maxdepth: 2
@@ -12,6 +13,13 @@ Welcome to airspeedsens's documentation!
    :numbered:
 
    speed-sensor
+
+.. toctree::
+   :maxdepth: 2
+
+   pitot-calc
+   ventury-calc
+   uart
 
 Indices and tables
 ==================

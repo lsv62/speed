@@ -18,18 +18,28 @@ def calculate_altitude(pressure, ground_level_pressure=1.01325):
     return altitude
 
 # Define the command to send (hexadecimal representation of ASCII characters)
-command = b'\x81\x7E'
+read_static_pres = b'\x81\x7E'
+read_temp = b'\x11\xEE'
 
 # Configure the serial port
 ser = serial.Serial('COM5', 115200, timeout=1)  # Adjust baud rate and timeout as needed
 
 try:
+        
+    if __name__ == "__main__":
+        # Check if the expected number of command-line arguments is provided
+        if len(sys.argv) != 2:
+            ground_pressure=1.01325
+            print("Usage: default ground pressure")
+        elif len(sys.argv) == 2: 
+            ground_pressure = float(sys.argv[1])
+            
     # Open the serial port
     if not ser.is_open:
         ser.open()
 
     # Send the command
-    ser.write(command)
+    ser.write(read_static_pres)
 
     # Wait for a short time to ensure response is received
     time.sleep(0.1)
@@ -39,23 +49,32 @@ try:
     float1 = ser.read(4)  # Adjust the number of bytes to read based on your expected response length
     end4 = ser.read(4)  # Adjust the number of bytes to read based on your expected response length
         
-    if __name__ == "__main__":
-        # Check if the expected number of command-line arguments is provided
-        if len(sys.argv) != 2:
-            ground_pressure=1.01325
-            print("Usage: default ground pressure>")
-        elif len(sys.argv) == 2: 
-            ground_pressure = float(sys.argv[1])
-        
-        print("ground pressure:", ground_pressure)
+    print("Absolute Ground Level pressure: {:.4f} Bar".format(ground_pressure))
 
     if len(float1) == 4:
         # Unpack bytes as Little-Endian 32-bit float
         measured_pressure = struct.unpack('<f', float1)[0]
-        print("Absolute pressure:", measured_pressure)
+        print("Absolute pressure: {:.4f} Bar".format(measured_pressure))
 
     altitude = calculate_altitude(measured_pressure,ground_pressure)
     print("Altitude: {:.2f} km".format(altitude))
+
+   # Send the command
+    ser.write(read_temp)
+
+    # Wait for a short time to ensure response is received
+    time.sleep(0.1)
+
+    # Read response (assuming response length is known)
+    byte1 = ser.read(1)  # Adjust the number of bytes to read based on your expected response length
+    float1 = ser.read(4)  # Adjust the number of bytes to read based on your expected response length
+    end4 = ser.read(4)  # Adjust the number of bytes to read based on your expected response length
+
+    if len(float1) == 4:
+        # Unpack bytes as Little-Endian 32-bit float
+        measured_temperature = struct.unpack('<f', float1)[0]
+        print("Temperature: {:.1f} degrees Celsius".format(measured_temperature))    
+
 finally:
     # Close the serial port
     if ser.is_open:

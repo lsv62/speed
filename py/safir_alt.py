@@ -3,6 +3,51 @@ import time
 import struct
 import math
 import sys
+import json
+
+def read_sensor(port,command):
+    try:
+        # Send the command
+        port.write(command)
+
+        # Wait for a short time to ensure response is received
+        time.sleep(0.1)
+
+        # Read response (assuming response length is known)
+        byte1 = port.read(1)  # Adjust the number of bytes to read based on your expected response length
+        float1 = port.read(4)  # Adjust the number of bytes to read based on your expected response length
+        end4 = port.read(4)  # Adjust the number of bytes to read based on your expected response length
+
+        if len(float1) == 4:
+            # Unpack bytes as Little-Endian 32-bit float
+            measure = struct.unpack('<f', float1)[0]
+
+            return measure
+
+    except serial.SerialException:
+        print("An error occurred while writing to the serial port.")   
+
+# reads the JSON file and loads its content into a dictionary
+def read_config(filename):
+    try:
+        with open(filename, 'r') as file:
+            config = json.load(file)
+            return config
+    except FileNotFoundError:
+        print(f"File '{filename}' not found.")
+        return None
+    except json.JSONDecodeError:
+        print(f"Failed to parse JSON in '{filename}'.")
+        return None
+
+def open_serial_port(config):
+    try:
+        ser = serial.Serial(**config)
+        print("Serial port", config["port"], "opened successfully.")
+        return ser
+    except serial.SerialException:
+        print("Failed to open serial port", config["port"])
+        return None
     
 def calculate_altitude(pressure, ground_level_pressure=1.01325):
     # Constants
@@ -21,61 +66,28 @@ def calculate_altitude(pressure, ground_level_pressure=1.01325):
 read_static_pres = b'\x81\x7E'
 read_temp = b'\x11\xEE'
 
-# Configure the serial port
-ser = serial.Serial('COM5', 115200, timeout=1)  # Adjust baud rate and timeout as needed
-
 try:
-        
-    if __name__ == "__main__":
-        # Check if the expected number of command-line arguments is provided
-        if len(sys.argv) != 2:
-            ground_pressure=1.01325
-            print("Usage: default ground pressure")
-        elif len(sys.argv) == 2: 
-            ground_pressure = float(sys.argv[1])
-            
-    # Open the serial port
-    if not ser.is_open:
-        ser.open()
 
-    # Send the command
-    ser.write(read_static_pres)
+    press_config = read_config("press_config.json")
+    if press_config:
+        # Assigning a dictionary field to a variable
+        ground_pressure = press_config['ground_level_pressure']
+    
+    abs_config = read_config("com_abs_config.json")
+    if abs_config:
+        abs_port = open_serial_port(abs_config)
+    if abs_port:
 
-    # Wait for a short time to ensure response is received
-    time.sleep(0.1)
+        measured_pressure = read_sensor(abs_port,read_static_pres)
+        print("Absolute pressure: {:.5f} Bar".format(measured_pressure))
 
-    # Read response (assuming response length is known)
-    byte1 = ser.read(1)  # Adjust the number of bytes to read based on your expected response length
-    float1 = ser.read(4)  # Adjust the number of bytes to read based on your expected response length
-    end4 = ser.read(4)  # Adjust the number of bytes to read based on your expected response length
-        
-    print("Absolute Ground Level pressure: {:.4f} Bar".format(ground_pressure))
+        altitude = calculate_altitude(measured_pressure,ground_pressure)
+        print("Altitude: {:.2f} km".format(altitude))
 
-    if len(float1) == 4:
-        # Unpack bytes as Little-Endian 32-bit float
-        measured_pressure = struct.unpack('<f', float1)[0]
-        print("Absolute pressure: {:.4f} Bar".format(measured_pressure))
-
-    altitude = calculate_altitude(measured_pressure,ground_pressure)
-    print("Altitude: {:.2f} km".format(altitude))
-
-   # Send the command
-    ser.write(read_temp)
-
-    # Wait for a short time to ensure response is received
-    time.sleep(0.1)
-
-    # Read response (assuming response length is known)
-    byte1 = ser.read(1)  # Adjust the number of bytes to read based on your expected response length
-    float1 = ser.read(4)  # Adjust the number of bytes to read based on your expected response length
-    end4 = ser.read(4)  # Adjust the number of bytes to read based on your expected response length
-
-    if len(float1) == 4:
-        # Unpack bytes as Little-Endian 32-bit float
-        measured_temperature = struct.unpack('<f', float1)[0]
-        print("Temperature: {:.1f} degrees Celsius".format(measured_temperature))    
+        measured_temperature = read_sensor(abs_port,read_temp)
+        print("Temperature: {:.1f} Celsius degrees".format(measured_temperature))    
 
 finally:
     # Close the serial port
-    if ser.is_open:
-        ser.close()
+    if abs_port.is_open:
+        abs_port.close()

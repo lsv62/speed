@@ -47,46 +47,72 @@ def open_serial_port(config):
     except serial.SerialException:
         print("Failed to open serial port", config["port"])
         return None
-    
-def calculate_altitude(pressure, ground_level_pressure=1.01325):
+ 
+def calculate_airspeed(delta_p, atm_pressure=1.01325, temp_celsius=15.0):
     # Constants
-    L = 0.0065  # Temperature lapse rate (K/m)
-    T0 = 288.15  # Standard temperature at sea level (K)
-    g = 9.80665  # Acceleration due to gravity (m/s^2)
-    M = 0.0289644  # Molar mass of Earth's air (kg/mol)
-    R = 8.31447  # Universal gas constant (J/(mol·K))
+    gas_constant = 287.0  # Specific gas constant for dry air (J/(kg·K))
     
-    # Calculate altitude using barometric formula
-    altitude = ((T0 / L) * (1 - (pressure / ground_level_pressure)**((R * L) / (g * M)))) / 1000.0  # Convert to kilometers
+    # Convert temperature from Celsius to Kelvin
+    temp_kelvin = temp_celsius + 273.15  # Convert Celsius to Kelvin
     
-    return altitude
+    # Calculate air density (rho) using ideal gas law
+    air_density = atm_pressure / (gas_constant * temp_kelvin)
+    
+    # Calculate airspeed using the formula: V = sqrt((2 * delta_p) / rho)
+    airspeed = math.sqrt((2 * delta_p) / air_density)
+    
+    return airspeed
 
 # Define the command to send (hexadecimal representation of ASCII characters)
+read_drop = b'\x84\x7B'
+read_temp = b'\x14\xEB'
+read_static_temp = b'\x11\xEE'
 read_static_pres = b'\x81\x7E'
-read_temp = b'\x11\xEE'
 
 try:
-
     press_config = read_config("press_config.json")
     if press_config:
         # Assigning a dictionary field to a variable
-        ground_pressure = press_config['ground_level_pressure']
-    
+        pressure_drop_offset = press_config['drop_offset']    
+
     abs_config = read_config("com_abs_config.json")
     if abs_config:
         abs_port = open_serial_port(abs_config)
+
+    diff_config = read_config("com_diff_config.json")
+    if diff_config:
+        diff_port = open_serial_port(diff_config)
+
     if abs_port:
+        abs_pressure = read_sensor(abs_port,read_static_pres)
+        print("Absolute pressure: {:.5f} Bar".format(abs_pressure))
 
-        measured_pressure = read_sensor(abs_port,read_static_pres)
-        print("Absolute pressure: {:.5f} Bar".format(measured_pressure))
+        stat_temperature = read_sensor(abs_port,read_static_temp)
+        print("Static Temperature: {:.1f} Celsius degrees".format(stat_temperature))  
 
-        altitude = calculate_altitude(measured_pressure,ground_pressure)
-        print("Altitude: {:.2f} km".format(altitude))
+    if diff_port:  
+            pressure_drop = read_sensor(diff_port,read_drop)
+            print("Measured_drop: {:.5f} Bar".format(pressure_drop))
 
-        measured_temperature = read_sensor(abs_port,read_temp)
-        print("Temperature: {:.1f} Celsius degrees".format(measured_temperature))    
+            drop_temperature = read_sensor(diff_port,read_temp)
+            print("Drop_temperature: {:.2f} degrees Celsius".format(drop_temperature))
+
+    IAS = calculate_airspeed(pressure_drop,abs_pressure,drop_temperature)
+    print("IAS: {:.2f} m/s".format(IAS))
+
+    dp = pressure_drop-pressure_drop_offset
+    if dp<0:
+        dp=0
+
+    CAS = calculate_airspeed(dp,abs_pressure,drop_temperature)
+    print("CAS = TAS: {:.2f} m/s".format(CAS))
+
+    EAS = calculate_airspeed(dp)
+    print("EAS: {:.2f} m/s".format(EAS))
 
 finally:
-    # Close the serial port
+    # Close the serial ports
     if abs_port.is_open:
         abs_port.close()
+    if diff_port.is_open:
+        diff_port.close()

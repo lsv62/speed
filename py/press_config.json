@@ -1,3 +1,4 @@
 {
-    "ground_level_pressure": 0.99986
+    "ground_level_pressure": 0.99986,
+    "drop_offset": 0.00172
 }

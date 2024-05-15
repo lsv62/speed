@@ -115,14 +115,24 @@ try:
     print("EAS: {:.2f} m/s".format(EAS))
 
 # Open file for writing
-with open(file_path, 'a') as file:
+    with open(file_path, 'a') as file:
 
-    # Write each pressure reading with timestamp to the file
-    timestamp = datetime.datetime.now().isoformat()
-    file.write(f'{timestamp} Abs_Pres={abs_pressure} Pa') # Write timestamp and pressure value
-    file.write(f' Drop={pressure_drop}(Pa) Drop_temp={drop_temperature}(C)')
-    file.write(f' IAS={IAS}(m/s) CAS={CAS}(m/s) EAS={EAS}(m/s)\n')
+        # Write each pressure reading with timestamp to the file
+        timestamp = datetime.datetime.now().isoformat()
+        A_p = round(abs_pressure, 5)
+        P_d = round(pressure_drop, 5)
+        D_t = round(drop_temperature, 1)
+        ias = round(IAS, 1)
+        cas = round(CAS, 1)
+        eas = round(EAS, 1)
+        file.write(f'{timestamp} Abs_Pres={A_p} Bar') # Write timestamp and pressure value
+        file.write(f' Drop={P_d}(Bar) Drop_temp={D_t}(C)')
+        file.write(f' IAS={ias}(m/s) CAS={cas}(m/s) EAS={eas}(m/s)\n')
 
+except FileNotFoundError:
+    print("File not found.")
+except IOError as e:
+    print("An error occurred:", e)
 finally:
     # Close the serial ports
     if abs_port.is_open:

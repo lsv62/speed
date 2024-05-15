@@ -4,7 +4,7 @@ import datetime
 file_path = 'data.txt'
 
 # Open file for writing
-with open(file_path, 'a') as file:
+with open(file_path, 'w') as file:
 
     # Write each pressure reading with timestamp to the file
     abs_pressure = 101325

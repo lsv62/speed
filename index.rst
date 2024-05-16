@@ -20,6 +20,7 @@
    pitot-calc
    ventury-calc
    uart
+   py/protokol
 
 Indices and tables
 ==================

@@ -21,6 +21,7 @@
    ventury-calc
    uart
    py/protokol
+   testing/reqs
 
 Indices and tables
 ==================

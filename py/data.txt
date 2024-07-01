@@ -1,0 +1,7 @@
+2024-07-01T15:50:55.304578 Abs_Pres=1.00356 Bar Drop=0.00384(Bar) Drop_temp=25.2(C) IAS=25.6(m/s) CAS=11.7(m/s) EAS=11.5(m/s)
+2024-07-01T16:02:48.101680 Abs_Pres=1.00342 Bar Drop=0.0038(Bar) Drop_temp=25.7(C) IAS=25.5(m/s) CAS=0.0(m/s) EAS=0.0(m/s)
+2024-07-01T16:03:14.372263 Abs_Pres=1.00339 Bar Drop=0.00385(Bar) Drop_temp=25.8(C) IAS=25.7(m/s) CAS=1.5(m/s) EAS=1.4(m/s)
+2024-07-01T16:05:40.195324 Abs_Pres=1.00329 Bar Drop=0.00385(Bar) Drop_temp=25.8(C) IAS=25.7(m/s) CAS=1.2(m/s) EAS=1.2(m/s)
+2024-07-01T16:05:49.375571 Abs_Pres=1.00328 Bar Drop=0.02443(Bar) Drop_temp=25.8(C) IAS=64.6(m/s) CAS=59.3(m/s) EAS=58.0(m/s)
+2024-07-01T16:05:58.337165 Abs_Pres=1.0033 Bar Drop=0.00385(Bar) Drop_temp=25.8(C) IAS=25.7(m/s) CAS=1.5(m/s) EAS=1.5(m/s)
+2024-07-01T16:06:46.551074 Abs_Pres=1.00329 Bar Drop=0.00381(Bar) Drop_temp=25.9(C) IAS=25.5(m/s) CAS=0.0(m/s) EAS=0.0(m/s)

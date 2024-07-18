@@ -1,0 +1,4 @@
+Period: 1721210263.506s, Time: 0.000
+Period: 1721210329.276s, Time: 0.000
+Period: 1721219959.375s, Time: 0.000
+Sensor not answered in period: 1721220134.679s by time: 0.000

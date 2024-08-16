@@ -12,16 +12,17 @@
    :caption: Contents:
    :numbered:
 
-   speed-sensor
+   cbc
+..   speed-sensor
 
 .. toctree::
    :maxdepth: 2
 
-   pitot-calc
-   ventury-calc
-   uart
-   py/protokol
-   testing/reqs
+..   pitot-calc
+..   ventury-calc
+..   uart
+..   py/protokol
+..   testing/reqs
 
 Indices and tables
 ==================

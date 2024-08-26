@@ -26,10 +26,10 @@
 
 .. container:: image-row
 
-   .. image:: images/Laversab6300M.png
+   .. image:: ../_static/Laversab6300M.png
       :width: 300px
 
-   .. image:: images/tube.png
+   .. image:: ../_static/tube.png
       :width: 300px
 
 
@@ -50,8 +50,8 @@
 
 .. math::
 
-    Altitude = \frac{T_0}{1000.0 * L} * \left(1 - \frac{AbsPressure}{GrounAbsdPressure}\right) 
-    ^{\frac{R * L}{g * M}}
+    Altitude = \frac{T_0}{1000.0 * L} * \left[1 - \left(\frac{AbsPressure}{GrounAbsdPressure} \right)
+    ^{\frac{R * L}{g * M}}\right]
         
 де
 

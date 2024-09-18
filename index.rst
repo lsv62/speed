@@ -12,7 +12,7 @@
    :caption: Contents:
    :numbered:
 
-   cbc
+   cbc-v2
 ..   speed-sensor
 
 .. toctree::

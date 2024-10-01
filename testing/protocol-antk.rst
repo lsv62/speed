@@ -86,7 +86,8 @@
 
 .. image:: ../_static/alt.png
 
-.. figure:: ../_static/alt_error_3percent.png
+.. 
+    .. figure:: ../_static/alt_error_3percent.png
 
     Помилка розрахунку висоти польоту при 3% похибці вимірювання тиску
 

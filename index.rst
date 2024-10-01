@@ -24,6 +24,8 @@
 ..   py/protokol
 ..   testing/reqs
 
+   testing/protocol-antk
+
 Indices and tables
 ==================
 

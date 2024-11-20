@@ -12,8 +12,9 @@
    :caption: Contents:
    :numbered:
 
-   cbc-v2
-..   speed-sensor
+..   cbc-v2
+
+   speed-sensor
 
 .. toctree::
    :maxdepth: 2
@@ -24,7 +25,7 @@
 ..   py/protokol
 ..   testing/reqs
 
-   testing/protocol-antk
+..   testing/protocol-antk
 
 Indices and tables
 ==================
